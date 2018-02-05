@@ -1,0 +1,79 @@
+
+<h1>Angular 4 CRUD Operation</h1>
+<h3 *ngIf="articleIdToUpdate; else create"> 
+   Update Article for Id: {{articleIdToUpdate}}
+</h3>
+<ng-template #create>
+   <h3> Create New Article </h3>
+</ng-template>
+
+<div>
+ <form [formGroup]="articleForm" (ngSubmit)="onArticleFormSubmit()">
+  <table>
+    <tr><td>Enter Title</td><td><input formControlName="title">
+	       <label *ngIf="articleForm.get('title').invalid && processValidation" [ngClass] = "'error'"> Title is required. </label>
+    </td></tr>
+    <tr><td>Enter Category</td><td><input formControlName="category">
+	       <label *ngIf="articleForm.get('category').invalid && processValidation" [ngClass] = "'error'"> Category is required. </label>
+    </td></tr>
+	<tr><td></td><td><input type="file"
+       ngFileSelect
+       [options]="options"
+	   (change)="fileEvent($event)" 
+       (onUpload)="handleUpload($event)"
+       (beforeUpload)="beforeUpload($event)">
+ 
+<!-- drag & drop file example-->
+<style>
+  .file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */
+</style> 
+<div ngFileDrop
+     [options]="options"
+	 (change)="fileEvent($event)"
+     (onUpload)="handleUpload($event)"
+     [ngClass]="{'file-over': hasBaseDropZoneOver}"
+     (onFileOver)="fileOverBase($event)"
+     (beforeUpload)="beforeUpload($event)">
+</div>
+	Response: {{ uploadFile | json }}</td></tr>
+    <tr><td colspan="2">
+	    <button *ngIf="!articleIdToUpdate">CREATE</button>  
+		<button *ngIf="articleIdToUpdate">UPDATE</button>  
+	    <button (click)="backToCreateArticle()" *ngIf="articleIdToUpdate">Go Back</button>  
+    </td></tr>
+  </table>
+ </form> 
+ <br/>
+ <div *ngIf="statusCode; else processing">
+   <div *ngIf="statusCode === 201" [ngClass] = "'success'">
+	 Article added successfully.
+   </div>   
+   <div *ngIf="statusCode === 409" [ngClass] = "'success'">
+        Article already exists.
+   </div>   	
+   <div *ngIf="statusCode === 200" [ngClass] = "'success'">
+        Article updated successfully.
+   </div>   	      
+   <div *ngIf="statusCode === 204" [ngClass] = "'success'">
+        Article deleted successfully.
+   </div>   	   
+   <div *ngIf="statusCode === 500" [ngClass] = "'error'">
+        Internal Server Error.
+   </div>   	
+ </div>
+ <ng-template #processing>
+	<img *ngIf="requestProcessing" src="assets/images/loading.gif">
+ </ng-template>
+</div>
+<h3>Article Details</h3>
+<table>
+  <tr><th> Id</th> <th>Title</th><th>Category</th><th></th><th></th></tr>
+  <tr *ngFor="let article of allArticles" >
+        <td>{{article.articleId}}</td> <td>{{article.title}}</td> <td>{{article.category}}</td>
+	<td><button type="button" (click)="loadArticleToEdit(article.articleId)">Edit</button> </td> 
+	<td><button type="button" (click)="deleteArticle(article.articleId)">Delete</button></td>
+  </tr>
+</table> 
+<textarea id="{{elementId}}">
+	
+</textarea>

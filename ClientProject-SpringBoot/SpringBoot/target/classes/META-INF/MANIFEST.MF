@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: ClientProject
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: HAZEM
+Implementation-Vendor-Id: com.hazem
+Build-Jdk: 1.8.0_121
+Implementation-URL: http://projects.spring.io/spring-boot/clientprojec
+ t/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+
